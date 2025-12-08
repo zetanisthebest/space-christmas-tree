@@ -12,6 +12,7 @@ const App: React.FC = () => {
   // Start muted by default to comply with browser autoplay policies
   const [isMuted, setIsMuted] = useState(true);
   const [hasAssembled, setHasAssembled] = useState(false);
+  const [audioInitialized, setAudioInitialized] = useState(false);
 
   // Initialize Main Audio - Chaos mode (starts at 0:00)
   const [chaosAudio] = useState(() => {
@@ -33,13 +34,19 @@ const App: React.FC = () => {
     return audio;
   });
 
-  // Start chaos audio playing immediately when component mounts
-  useEffect(() => {
-    chaosAudio.currentTime = 0;
-    chaosAudio.play().catch(e => console.warn("Chaos audio autoplay blocked:", e));
-  }, [chaosAudio]);
+  // Initialize audio on first user interaction (Chrome requirement)
+  const initializeAudio = () => {
+    if (!audioInitialized) {
+      chaosAudio.currentTime = 0;
+      chaosAudio.play().catch(e => console.warn("Chaos audio autoplay blocked:", e));
+      setAudioInitialized(true);
+    }
+  };
 
   const toggleState = () => {
+    // Initialize audio on first click (Chrome requires user gesture)
+    initializeAudio();
+    
     const newState = treeState === TreeState.SCATTERED ? TreeState.TREE_SHAPE : TreeState.SCATTERED;
     
     if (newState === TreeState.TREE_SHAPE) {
@@ -63,6 +70,9 @@ const App: React.FC = () => {
   };
 
   const toggleMute = () => {
+    // Initialize audio on mute toggle (Chrome requires user gesture)
+    initializeAudio();
+    
     setIsMuted(!isMuted);
     // Volume is controlled by AudioController based on isMuted state
     // Audio keeps playing in background
