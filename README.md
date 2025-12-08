@@ -4,6 +4,8 @@
 
 A mesmerizing 3D interactive experience featuring a luxury gold and emerald Christmas tree that transforms between scattered particles and an elegant structured form, set against the cosmos.
 
+<img width="1302" height="647" alt="space christmas tree-thumbnail" src="https://github.com/user-attachments/assets/97399882-d788-417c-9f15-9239eff4abd0" />
+
 [View Demo](https://space-christmas-tree.vercel.app/) • [Report Bug](https://github.com/zetanisthebest/space-christmas-tree/issues) • [Request Feature](https://github.com/zetanisthebest/space-christmas-tree/issues)
 
 </div>
