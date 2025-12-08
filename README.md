@@ -1,37 +1,16 @@
-# ✨ Space Interactive Christmas Tree
+# ✨ Space Interactive Christmas Tree 🎄
 
 <div align="center">
 
 A mesmerizing 3D interactive experience featuring a luxury gold and emerald Christmas tree that transforms between scattered particles and an elegant structured form, set against the cosmos.
 
-[View Demo](#) • [Report Bug](https://github.com/zetanisthebest/space-christmas-tree/issues) • [Request Feature](https://github.com/zetanisthebest/space-christmas-tree/issues)
+[View Demo](https://space-christmas-tree.vercel.app/) • [Report Bug](https://github.com/zetanisthebest/space-christmas-tree/issues) • [Request Feature](https://github.com/zetanisthebest/space-christmas-tree/issues)
 
 </div>
 
 ---
 
-## 🎄 Features
-
-- **Interactive 3D Morphing** - Watch particles dance between chaos and structure
-- **Luxury Aesthetic** - Gold and emerald color palette with premium visual effects
-- **Immersive Audio** - Synchronized Christmas music that evolves with the tree state
-- **Space Environment** - Beautiful starfield background with ambient lighting
-- **Smooth Animations** - Fluid transitions powered by React Three Fiber
-- **Post-Processing Effects** - Bloom and depth-of-field for cinematic quality
-
-## 🚀 Tech Stack
-
-- **React** - UI framework
-- **TypeScript** - Type safety
-- **Three.js** - 3D graphics
-- **React Three Fiber** - React renderer for Three.js
-- **@react-three/drei** - Useful helpers for R3F
-- **@react-three/postprocessing** - Post-processing effects
-- **Vite** - Fast build tool
-
 ## 📦 Installation
-
-**Prerequisites:** Node.js 16+ and npm
 
 1. **Clone the repository**
    ```bash
@@ -62,22 +41,6 @@ A mesmerizing 3D interactive experience featuring a luxury gold and emerald Chri
 - **Click the speaker icon** to toggle audio on/off
 - The experience starts muted by default (browser autoplay policy)
 
-## 📁 Project Structure
-
-```
-├── components/
-│   ├── Scene.tsx           # Main 3D scene wrapper
-│   ├── Foliage.tsx         # Particle system for tree
-│   ├── Ornaments.tsx       # Decorative spheres
-│   ├── Ribbon.tsx          # Animated ribbon effect
-│   ├── UIOverlay.tsx       # UI controls
-│   └── AudioController.tsx # Audio management
-├── utils/
-│   └── math.ts            # Mathematical utilities
-├── public/                # Static assets
-├── App.tsx                # Main application
-└── types.ts               # TypeScript definitions
-```
 
 ## 🎨 Customization
 
@@ -105,22 +68,12 @@ npm run build
 
 The optimized production build will be in the `dist/` folder.
 
-## 🌐 Deployment
-
-Deploy easily to:
-- **Vercel**: `vercel deploy`
-- **Netlify**: Drag and drop the `dist/` folder
-- **GitHub Pages**: Use `gh-pages` package
-
-## 📝 License
-
-MIT © zetanisthebest
 
 ## 🙏 Acknowledgments
 
 - Created with inspiration from holiday magic and cosmic wonder
 - Built with React Three Fiber community resources
-- Music: [Add your music credits here]
+- Music: Anson Seabra - Christmas List
 
 ---
 
