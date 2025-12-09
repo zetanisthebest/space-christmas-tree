@@ -4,8 +4,9 @@ import UIOverlay from './components/UIOverlay';
 import { TreeState } from './types';
 
 // Main Song: Local Christmas Music
-const CHAOS_AUDIO_URL = '/christmas-music.mp3'; // Chaos mode audio
-const TREE_AUDIO_URL = '/christmas-music.mp3'; // Tree mode audio (you can change this to a different file)
+const AUDIO_URL = '/christmas-music.mp3';
+const CHAOS_START_TIME = 0; // Chaos mode starts at 0:00
+const TREE_START_TIME = 44; // Tree mode starts at 0:44
 
 const App: React.FC = () => {
   const [treeState, setTreeState] = useState<TreeState>(TreeState.SCATTERED);
@@ -14,55 +15,45 @@ const App: React.FC = () => {
   const [hasAssembled, setHasAssembled] = useState(false);
   const [audioInitialized, setAudioInitialized] = useState(false);
 
-  // Initialize Main Audio - Chaos mode (starts at 0:00)
-  const [chaosAudio] = useState(() => {
-    const audio = new Audio(CHAOS_AUDIO_URL + '?t=' + Date.now());
-    audio.loop = true;
-    audio.volume = 0;
-    audio.preload = "auto";
-    audio.load(); // Force load
-    return audio;
+  // Initialize single audio element for better mobile compatibility
+  const [audio] = useState(() => {
+    const audioElement = new Audio(AUDIO_URL);
+    audioElement.loop = true;
+    audioElement.volume = 0;
+    audioElement.preload = "auto";
+    audioElement.load();
+    return audioElement;
   });
 
-  // Initialize Tree Audio - Assembled mode (different soundtrack)
-  const [treeAudio] = useState(() => {
-    const audio = new Audio(TREE_AUDIO_URL + '?t=' + Date.now() + '1');
-    audio.loop = true;
-    audio.volume = 0;
-    audio.preload = "auto";
-    audio.load(); // Force load
-    return audio;
-  });
-
-  // Initialize audio on first user interaction (Chrome requirement)
+  // Initialize audio on first user interaction (mobile Safari requirement)
   const initializeAudio = () => {
     if (!audioInitialized) {
-      chaosAudio.currentTime = 0;
-      chaosAudio.play().catch(e => console.warn("Chaos audio autoplay blocked:", e));
+      audio.currentTime = CHAOS_START_TIME;
+      audio.play().catch(e => console.warn("Audio autoplay blocked:", e));
       setAudioInitialized(true);
     }
   };
 
   const toggleState = () => {
-    // Initialize audio on first click (Chrome requires user gesture)
+    // Initialize audio on first click
     initializeAudio();
     
     const newState = treeState === TreeState.SCATTERED ? TreeState.TREE_SHAPE : TreeState.SCATTERED;
     
     if (newState === TreeState.TREE_SHAPE) {
-      // Assembling: Start tree audio at 0:44
+      // Assembling: Jump to tree section
       if (!hasAssembled) {
         setHasAssembled(true);
       }
-      treeAudio.currentTime = 44;
-      if (treeAudio.paused) {
-        treeAudio.play().catch(e => console.warn("Tree audio play blocked:", e));
+      audio.currentTime = TREE_START_TIME;
+      if (audio.paused) {
+        audio.play().catch(e => console.warn("Audio play blocked:", e));
       }
     } else {
-      // Scattering: Start chaos audio from beginning
-      chaosAudio.currentTime = 0;
-      if (chaosAudio.paused) {
-        chaosAudio.play().catch(e => console.warn("Chaos audio play blocked:", e));
+      // Scattering: Jump back to chaos section
+      audio.currentTime = CHAOS_START_TIME;
+      if (audio.paused) {
+        audio.play().catch(e => console.warn("Audio play blocked:", e));
       }
     }
     
@@ -70,12 +61,10 @@ const App: React.FC = () => {
   };
 
   const toggleMute = () => {
-    // Initialize audio on mute toggle (Chrome requires user gesture)
+    // Initialize audio on mute toggle
     initializeAudio();
     
     setIsMuted(!isMuted);
-    // Volume is controlled by AudioController based on isMuted state
-    // Audio keeps playing in background
   };
 
   return (
@@ -83,8 +72,7 @@ const App: React.FC = () => {
       <Scene 
         treeState={treeState} 
         isMuted={isMuted} 
-        chaosAudio={chaosAudio}
-        treeAudio={treeAudio}
+        audio={audio}
       />
       <UIOverlay 
         currentState={treeState} 

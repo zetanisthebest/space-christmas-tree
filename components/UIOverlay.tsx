@@ -21,10 +21,11 @@ const UIOverlay: React.FC<UIOverlayProps> = ({ currentState, onToggle, isMuted, 
           className={`
             relative
             font-serif text-center tracking-[0.2em]
-            text-3xl md:text-5xl lg:text-6xl
+            text-2xl sm:text-3xl md:text-5xl lg:text-6xl
             bg-gradient-to-r from-[#B8860B] via-[#FFD700] to-[#B8860B]
             text-transparent bg-clip-text
             transition-all duration-2000 ease-out
+            px-4 max-w-[80%] sm:max-w-none
             ${isTree ? 'animate-reveal opacity-100' : 'opacity-0 blur-lg scale-110'}
           `}
           style={{
@@ -47,11 +48,11 @@ const UIOverlay: React.FC<UIOverlayProps> = ({ currentState, onToggle, isMuted, 
       </div>
 
       {/* Mute Toggle Button - Top Right with Audio Visualizer */}
-      <div className="absolute top-10 right-10 pointer-events-auto">
+      <div className="absolute top-4 right-4 sm:top-10 sm:right-10 pointer-events-auto">
         <button
           onClick={onToggleMute}
           className={`
-            relative group p-3 rounded-full 
+            relative group p-2 sm:p-3 rounded-full 
             border border-arix-gold/30 bg-arix-dark/50 
             text-arix-gold/70 hover:text-arix-gold hover:bg-arix-dark/80 hover:border-arix-gold
             backdrop-blur-sm transition-all duration-300
@@ -71,12 +72,12 @@ const UIOverlay: React.FC<UIOverlayProps> = ({ currentState, onToggle, isMuted, 
           
           {isMuted ? (
             // Muted Icon
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 relative z-10">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 sm:w-6 sm:h-6 relative z-10">
               <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
             </svg>
           ) : (
             // Sound Icon
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 relative z-10">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 sm:w-6 sm:h-6 relative z-10">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
             </svg>
           )}

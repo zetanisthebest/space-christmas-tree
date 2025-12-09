@@ -12,11 +12,10 @@ import AudioController from './AudioController';
 interface SceneProps {
   treeState: TreeState;
   isMuted: boolean;
-  chaosAudio: HTMLAudioElement;
-  treeAudio: HTMLAudioElement;
+  audio: HTMLAudioElement;
 }
 
-const Scene: React.FC<SceneProps> = ({ treeState, isMuted, chaosAudio, treeAudio }) => {
+const Scene: React.FC<SceneProps> = ({ treeState, isMuted, audio }) => {
   return (
     <Canvas
       dpr={[1, 2]}
@@ -37,8 +36,7 @@ const Scene: React.FC<SceneProps> = ({ treeState, isMuted, chaosAudio, treeAudio
       <AudioController 
         state={treeState} 
         isMuted={isMuted} 
-        chaosAudio={chaosAudio} 
-        treeAudio={treeAudio}
+        audio={audio}
       />
 
       {/* Lighting System for Luxury Look */}
