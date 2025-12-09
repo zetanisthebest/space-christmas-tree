@@ -21,48 +21,76 @@ const App: React.FC = () => {
     audioElement.loop = true;
     audioElement.volume = 0;
     audioElement.preload = "auto";
+    // Mobile Safari specific settings
+    audioElement.setAttribute('playsinline', 'true');
     audioElement.load();
     return audioElement;
   });
 
+  // Cleanup audio on unmount
+  useEffect(() => {
+    return () => {
+      audio.pause();
+      audio.src = '';
+    };
+  }, [audio]);
+
   // Initialize audio on first user interaction (mobile Safari requirement)
-  const initializeAudio = () => {
+  const initializeAudio = async () => {
     if (!audioInitialized) {
-      audio.currentTime = CHAOS_START_TIME;
-      audio.play().catch(e => console.warn("Audio autoplay blocked:", e));
-      setAudioInitialized(true);
+      try {
+        audio.currentTime = CHAOS_START_TIME;
+        // Must call play() synchronously in user gesture for mobile Safari
+        await audio.play();
+        setAudioInitialized(true);
+      } catch (e) {
+        console.warn("Audio autoplay blocked:", e);
+      }
     }
   };
 
-  const toggleState = () => {
-    // Initialize audio on first click
-    initializeAudio();
-    
+  const toggleState = async () => {
     const newState = treeState === TreeState.SCATTERED ? TreeState.TREE_SHAPE : TreeState.SCATTERED;
     
-    if (newState === TreeState.TREE_SHAPE) {
-      // Assembling: Jump to tree section
-      if (!hasAssembled) {
-        setHasAssembled(true);
-      }
-      audio.currentTime = TREE_START_TIME;
-      if (audio.paused) {
-        audio.play().catch(e => console.warn("Audio play blocked:", e));
+    // Initialize and play audio on first click (mobile Safari requirement)
+    if (!audioInitialized) {
+      try {
+        audio.currentTime = newState === TreeState.TREE_SHAPE ? TREE_START_TIME : CHAOS_START_TIME;
+        await audio.play();
+        setAudioInitialized(true);
+      } catch (e) {
+        console.warn("Audio play blocked:", e);
       }
     } else {
-      // Scattering: Jump back to chaos section
-      audio.currentTime = CHAOS_START_TIME;
+      // Change playback position for subsequent clicks
+      audio.currentTime = newState === TreeState.TREE_SHAPE ? TREE_START_TIME : CHAOS_START_TIME;
       if (audio.paused) {
-        audio.play().catch(e => console.warn("Audio play blocked:", e));
+        try {
+          await audio.play();
+        } catch (e) {
+          console.warn("Audio play blocked:", e);
+        }
       }
+    }
+    
+    if (newState === TreeState.TREE_SHAPE && !hasAssembled) {
+      setHasAssembled(true);
     }
     
     setTreeState(newState);
   };
 
-  const toggleMute = () => {
-    // Initialize audio on mute toggle
-    initializeAudio();
+  const toggleMute = async () => {
+    // Initialize audio on mute toggle if not already done
+    if (!audioInitialized) {
+      try {
+        audio.currentTime = CHAOS_START_TIME;
+        await audio.play();
+        setAudioInitialized(true);
+      } catch (e) {
+        console.warn("Audio play blocked:", e);
+      }
+    }
     
     setIsMuted(!isMuted);
   };
